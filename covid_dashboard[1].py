@@ -99,15 +99,9 @@ def ler_do_snowflake() -> pd.DataFrame:
     return df.sort_values("date").reset_index(drop=True)
 
 
-def valores_mais_recentes(df: pd.DataFrame) -> pd.DataFrame:
-    """Último valor conhecido (não-nulo) de cada métrica, por país."""
-    df = df.sort_values("date")
-    latest = (
-        df.groupby("location", group_keys=False)
-        .apply(lambda g: g.ffill().iloc[-1])
-        .reset_index(drop=True)
-    )
-    return latest
+df = df.sort_values("date")
+       latest = df.groupby("location", as_index=False).last()
+       return latest
 
 
 # ----------------------------------------------------------------------
